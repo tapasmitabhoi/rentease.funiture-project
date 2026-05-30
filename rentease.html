@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RentEase – Furniture & Appliance Rental</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a1a2e;
+  --accent: #e8c547;
+  --accent2: #ff6b35;
+  --surface: #f7f5f0;
+  --surface2: #ffffff;
+  --text: #1a1a2e;
+  --text-muted: #6b6b7a;
+  --border: rgba(26,26,46,0.10);
+  --success: #22c55e;
+  --danger: #ef4444;
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow: 0 4px 24px rgba(26,26,46,0.08);
+  --shadow-lg: 0 12px 48px rgba(26,26,46,0.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--surface);color:var(--text);min-height:100vh;overflow-x:hidden;}
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border);border-radius:99px;}
+
+/* ── PAGE SYSTEM ── */
+.page{display:none;min-height:100vh;}
+.page.active{display:block;}
+
+/* ── NAV ── */
+nav{position:sticky;top:0;z-index:100;background:rgba(247,245,240,0.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 5vw;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px;}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:var(--primary);display:flex;align-items:center;gap:8px;cursor:pointer;}
+.logo-dot{width:10px;height:10px;background:var(--accent);border-radius:50%;display:inline-block;}
+.nav-links{display:flex;align-items:center;gap:8px;}
+.nav-links button{background:none;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--text-muted);cursor:pointer;padding:8px 14px;border-radius:var(--radius-sm);transition:all .2s;}
+.nav-links button:hover,.nav-links button.active{background:var(--primary);color:#fff;}
+.nav-cta{background:var(--accent)!important;color:var(--primary)!important;font-weight:600!important;}
+.nav-cta:hover{background:#d4b03e!important;color:var(--primary)!important;}
+
+/* ── HERO ── */
+.hero{padding:80px 5vw 60px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;min-height:calc(100vh - 68px);}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:var(--accent);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:99px;margin-bottom:28px;}
+.hero-badge span{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite;}
+.hero h1{font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(38px,5vw,64px);line-height:1.08;margin-bottom:24px;color:var(--primary);}
+.hero h1 em{font-style:normal;color:var(--accent2);}
+.hero p{font-size:17px;color:var(--text-muted);line-height:1.7;margin-bottom:36px;max-width:480px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+.btn-primary{background:var(--primary);color:#fff;border:none;padding:14px 28px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;}
+.btn-primary:hover{background:#2d2d4e;transform:translateY(-1px);box-shadow:var(--shadow);}
+.btn-outline{background:none;border:1.5px solid var(--primary);color:var(--primary);padding:14px 28px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all .2s;}
+.btn-outline:hover{background:var(--primary);color:#fff;}
+.hero-stats{display:flex;gap:32px;margin-top:48px;}
+.stat-item{display:flex;flex-direction:column;gap:4px;}
+.stat-num{font-family:'Syne',sans-serif;font-weight:700;font-size:28px;color:var(--primary);}
+.stat-label{font-size:13px;color:var(--text-muted);}
+.hero-visual{position:relative;}
+.hero-card-stack{position:relative;height:480px;}
+.card-main{position:absolute;width:100%;max-width:400px;background:var(--primary);border-radius:24px;padding:32px;color:#fff;top:40px;right:0;}
+.card-main-img{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,#2d2d4e,#3d3d6e);border-radius:16px;margin-bottom:20px;display:flex;align-items:center;justify-content:center;font-size:64px;overflow:hidden;position:relative;}
+.card-float{position:absolute;background:var(--surface2);border-radius:16px;padding:16px 20px;box-shadow:var(--shadow-lg);}
+.card-float-1{top:0;left:0;min-width:180px;}
+.card-float-2{bottom:40px;left:-20px;min-width:160px;}
+.float-label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.float-val{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--primary);}
+.float-sub{font-size:12px;color:var(--text-muted);}
+.availability-dots{display:flex;gap:4px;margin-top:8px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--success);}
+.dot.off{background:var(--border);}
+
+/* ── SECTIONS ── */
+.section{padding:72px 5vw;}
+.section-label{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:16px;}
+.section-title{font-family:'Syne',sans-serif;font-weight:700;font-size:clamp(28px,3.5vw,44px);color:var(--primary);margin-bottom:16px;line-height:1.15;}
+.section-sub{font-size:16px;color:var(--text-muted);max-width:520px;line-height:1.65;margin-bottom:48px;}
+
+/* ── CATEGORY FILTER ── */
+.filter-bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px;}
+.filter-btn{background:none;border:1.5px solid var(--border);color:var(--text-muted);padding:9px 20px;border-radius:99px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;}
+.filter-btn.active,.filter-btn:hover{background:var(--primary);border-color:var(--primary);color:#fff;}
+
+/* ── PRODUCT GRID ── */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:24px;}
+.product-card{background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:all .3s;cursor:pointer;position:relative;}
+.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.product-img{aspect-ratio:4/3;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:56px;position:relative;overflow:hidden;}
+.product-badge{position:absolute;top:12px;left:12px;background:var(--accent);color:var(--primary);font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;letter-spacing:.04em;}
+.product-badge.new{background:var(--accent2);color:#fff;}
+.wishlist-btn{position:absolute;top:12px;right:12px;width:34px;height:34px;background:rgba(255,255,255,.9);border:none;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.wishlist-btn:hover{background:#fff;transform:scale(1.1);}
+.wishlist-btn svg{width:16px;height:16px;stroke:var(--text-muted);fill:none;}
+.wishlist-btn.active svg{stroke:var(--danger);fill:var(--danger);}
+.product-info{padding:20px;}
+.product-cat{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+.product-name{font-family:'Syne',sans-serif;font-weight:600;font-size:17px;color:var(--primary);margin-bottom:4px;}
+.product-desc{font-size:13px;color:var(--text-muted);margin-bottom:16px;line-height:1.5;}
+.product-footer{display:flex;align-items:center;justify-content:space-between;}
+.price-wrap{display:flex;flex-direction:column;}
+.price{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--primary);}
+.price-note{font-size:11px;color:var(--text-muted);}
+.add-btn{background:var(--primary);color:#fff;border:none;width:38px;height:38px;border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;font-size:20px;}
+.add-btn:hover{background:var(--accent2);transform:scale(1.05);}
+
+/* ── HOW IT WORKS ── */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px;}
+.step-card{position:relative;}
+.step-num{font-family:'Syne',sans-serif;font-weight:800;font-size:64px;color:rgba(26,26,46,.05);line-height:1;margin-bottom:-16px;}
+.step-icon{width:52px;height:52px;background:var(--primary);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px;}
+.step-title{font-family:'Syne',sans-serif;font-weight:600;font-size:18px;color:var(--primary);margin-bottom:8px;}
+.step-desc{font-size:14px;color:var(--text-muted);line-height:1.6;}
+
+/* ── TESTIMONIALS ── */
+.testimonials-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;}
+.testimonial-card{background:var(--surface2);border-radius:var(--radius);padding:28px;border:1px solid var(--border);}
+.stars{color:var(--accent);font-size:14px;margin-bottom:14px;letter-spacing:2px;}
+.testimonial-text{font-size:15px;color:var(--text);line-height:1.65;margin-bottom:20px;font-style:italic;}
+.testimonial-author{display:flex;align-items:center;gap:12px;}
+.author-avatar{width:40px;height:40px;border-radius:50%;background:var(--primary);display:flex;align-items:center;justify-content:center;color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;font-size:14px;}
+.author-info{display:flex;flex-direction:column;gap:2px;}
+.author-name{font-weight:600;font-size:14px;color:var(--primary);}
+.author-role{font-size:12px;color:var(--text-muted);}
+
+/* ── CART SIDEBAR ── */
+.cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:200;opacity:0;pointer-events:none;transition:opacity .3s;}
+.cart-overlay.open{opacity:1;pointer-events:all;}
+.cart-sidebar{position:fixed;right:-440px;top:0;width:100%;max-width:440px;height:100vh;background:var(--surface2);z-index:201;transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;box-shadow:-8px 0 32px rgba(0,0,0,.12);}
+.cart-sidebar.open{right:0;}
+.cart-header{padding:24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.cart-header h2{font-family:'Syne',sans-serif;font-weight:700;font-size:20px;color:var(--primary);}
+.cart-close{background:var(--surface);border:none;width:36px;height:36px;border-radius:var(--radius-sm);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;}
+.cart-close:hover{background:var(--border);}
+.cart-items{flex:1;overflow-y:auto;padding:20px 24px;}
+.cart-item{display:flex;gap:14px;padding:16px 0;border-bottom:1px solid var(--border);}
+.cart-item-img{width:70px;height:70px;border-radius:12px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;}
+.cart-item-info{flex:1;}
+.cart-item-name{font-family:'Syne',sans-serif;font-weight:600;font-size:14px;color:var(--primary);margin-bottom:4px;}
+.cart-item-plan{font-size:12px;color:var(--text-muted);margin-bottom:8px;}
+.cart-item-actions{display:flex;align-items:center;justify-content:space-between;}
+.qty-control{display:flex;align-items:center;gap:8px;}
+.qty-btn{width:26px;height:26px;border-radius:8px;border:1px solid var(--border);background:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.qty-btn:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+.qty-num{font-weight:600;font-size:14px;min-width:20px;text-align:center;}
+.cart-item-price{font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:var(--primary);}
+.cart-remove{background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:18px;transition:color .2s;padding:4px;}
+.cart-remove:hover{color:var(--danger);}
+.cart-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:16px;color:var(--text-muted);}
+.cart-empty-icon{font-size:56px;opacity:.3;}
+.cart-footer{padding:20px 24px;border-top:1px solid var(--border);}
+.cart-summary{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
+.summary-row{display:flex;justify-content:space-between;font-size:14px;color:var(--text-muted);}
+.summary-row.total{color:var(--primary);font-weight:600;font-size:16px;padding-top:10px;border-top:1px solid var(--border);}
+.checkout-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:16px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px;}
+.checkout-btn:hover{background:#2d2d4e;transform:translateY(-1px);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--primary);color:#fff;padding:12px 22px;border-radius:12px;font-size:14px;font-weight:500;z-index:999;transition:transform .3s;display:flex;align-items:center;gap:10px;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+.toast-icon{font-size:16px;}
+
+/* ── CART COUNT ── */
+.cart-count-badge{position:absolute;top:-6px;right:-6px;background:var(--accent2);color:#fff;width:18px;height:18px;border-radius:50%;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.cart-trigger{position:relative;cursor:pointer;}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--surface2);border-radius:24px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+.modal-header{padding:28px 28px 0;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;}
+.modal-img{width:100%;aspect-ratio:16/9;background:var(--surface);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:80px;margin:20px 28px 0;width:calc(100% - 56px);}
+.modal-body{padding:24px 28px 28px;}
+.modal-cat{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent2);margin-bottom:8px;}
+.modal-name{font-family:'Syne',sans-serif;font-weight:700;font-size:26px;color:var(--primary);margin-bottom:10px;}
+.modal-desc{font-size:15px;color:var(--text-muted);line-height:1.65;margin-bottom:24px;}
+.modal-specs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
+.spec-item{background:var(--surface);border-radius:var(--radius-sm);padding:14px;}
+.spec-label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.spec-val{font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--primary);}
+.tenure-select{margin-bottom:24px;}
+.tenure-label{font-size:14px;font-weight:500;color:var(--primary);margin-bottom:12px;}
+.tenure-options{display:flex;gap:10px;flex-wrap:wrap;}
+.tenure-btn{background:var(--surface);border:1.5px solid var(--border);color:var(--text-muted);padding:8px 18px;border-radius:99px;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;}
+.tenure-btn.active{background:var(--primary);border-color:var(--primary);color:#fff;}
+.modal-add-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:16px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all .2s;}
+.modal-add-btn:hover{background:var(--accent2);}
+
+/* ── DASHBOARD ── */
+.dashboard{padding:40px 5vw;}
+.dashboard-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:36px;}
+.welcome-text h2{font-family:'Syne',sans-serif;font-weight:700;font-size:28px;color:var(--primary);}
+.welcome-text p{color:var(--text-muted);font-size:14px;margin-top:4px;}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:20px;margin-bottom:36px;}
+.kpi-card{background:var(--surface2);border-radius:var(--radius);padding:24px;border:1px solid var(--border);display:flex;flex-direction:column;gap:8px;transition:all .2s;}
+.kpi-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.kpi-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:4px;}
+.kpi-icon.yellow{background:#fef3c7;}
+.kpi-icon.green{background:#dcfce7;}
+.kpi-icon.blue{background:#dbeafe;}
+.kpi-icon.red{background:#fee2e2;}
+.kpi-label{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);}
+.kpi-value{font-family:'Syne',sans-serif;font-weight:700;font-size:28px;color:var(--primary);}
+.kpi-change{font-size:12px;display:flex;align-items:center;gap:4px;}
+.kpi-change.up{color:var(--success);}
+.kpi-change.down{color:var(--danger);}
+.dashboard-grid{display:grid;grid-template-columns:2fr 1fr;gap:24px;}
+.dash-card{background:var(--surface2);border-radius:var(--radius);border:1px solid var(--border);padding:24px;}
+.dash-card-title{font-family:'Syne',sans-serif;font-weight:600;font-size:16px;color:var(--primary);margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+.rental-list{display:flex;flex-direction:column;gap:14px;}
+.rental-item{display:flex;align-items:center;gap:14px;padding:14px;background:var(--surface);border-radius:var(--radius-sm);}
+.rental-item-icon{width:44px;height:44px;border-radius:10px;background:var(--primary);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.rental-item-info{flex:1;}
+.rental-item-name{font-weight:600;font-size:14px;color:var(--primary);margin-bottom:2px;}
+.rental-item-meta{font-size:12px;color:var(--text-muted);}
+.rental-status{font-size:11px;font-weight:600;padding:4px 10px;border-radius:99px;}
+.status-active{background:#dcfce7;color:#16a34a;}
+.status-pending{background:#fef3c7;color:#d97706;}
+.status-ending{background:#fee2e2;color:#dc2626;}
+.progress-wrap{margin-top:6px;}
+.progress-bar{height:4px;background:var(--border);border-radius:99px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--primary);border-radius:99px;transition:width .5s;}
+.mini-chart{display:flex;align-items:flex-end;gap:4px;height:80px;margin-top:12px;}
+.bar{flex:1;background:var(--primary);border-radius:4px 4px 0 0;transition:height .4s;min-height:4px;opacity:.7;}
+.bar:nth-child(6),.bar:nth-child(7){opacity:1;}
+.bar-label{font-size:10px;color:var(--text-muted);text-align:center;margin-top:4px;}
+.chart-wrap{display:flex;gap:6px;}
+.chart-bars{flex:1;}
+.activity-list{display:flex;flex-direction:column;gap:12px;}
+.activity-item{display:flex;gap:12px;align-items:flex-start;}
+.activity-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:4px;}
+.activity-dot.green{background:var(--success);}
+.activity-dot.amber{background:var(--accent);}
+.activity-dot.red{background:var(--danger);}
+.activity-text{font-size:13px;color:var(--text);line-height:1.5;}
+.activity-time{font-size:11px;color:var(--text-muted);margin-top:2px;}
+
+/* ── AUTH ── */
+.auth-wrap{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;}
+.auth-left{background:var(--primary);padding:60px;display:flex;flex-direction:column;justify-content:space-between;}
+.auth-left-content{flex:1;display:flex;flex-direction:column;justify-content:center;}
+.auth-left h2{font-family:'Syne',sans-serif;font-weight:800;font-size:40px;color:#fff;line-height:1.15;margin-bottom:20px;}
+.auth-left h2 span{color:var(--accent);}
+.auth-left p{font-size:16px;color:rgba(255,255,255,.65);line-height:1.65;}
+.auth-features{display:flex;flex-direction:column;gap:16px;margin-top:40px;}
+.auth-feature{display:flex;align-items:center;gap:14px;}
+.auth-feature-icon{width:36px;height:36px;background:rgba(255,255,255,.1);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.auth-feature-text{font-size:14px;color:rgba(255,255,255,.75);line-height:1.5;}
+.auth-right{padding:60px;display:flex;align-items:center;justify-content:center;}
+.auth-form-wrap{width:100%;max-width:400px;}
+.auth-form-wrap h3{font-family:'Syne',sans-serif;font-weight:700;font-size:28px;color:var(--primary);margin-bottom:6px;}
+.auth-sub{font-size:14px;color:var(--text-muted);margin-bottom:36px;}
+.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;}
+.form-label{font-size:13px;font-weight:500;color:var(--primary);}
+.form-input{padding:12px 16px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;color:var(--primary);background:var(--surface2);transition:border-color .2s;outline:none;}
+.form-input:focus{border-color:var(--primary);}
+.form-input::placeholder{color:var(--text-muted);}
+.form-submit{width:100%;background:var(--primary);color:#fff;border:none;padding:14px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:500;cursor:pointer;transition:all .2s;margin-top:8px;}
+.form-submit:hover{background:#2d2d4e;}
+.auth-switch{text-align:center;margin-top:20px;font-size:13px;color:var(--text-muted);}
+.auth-switch a{color:var(--primary);font-weight:600;cursor:pointer;text-decoration:none;}
+.auth-switch a:hover{color:var(--accent2);}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.divider-line{flex:1;height:1px;background:var(--border);}
+.divider-text{font-size:12px;color:var(--text-muted);}
+.social-btn{width:100%;background:var(--surface);border:1.5px solid var(--border);color:var(--primary);padding:12px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;}
+.social-btn:hover{border-color:var(--primary);background:var(--primary);color:#fff;}
+
+/* ── CHECKOUT ── */
+.checkout-wrap{max-width:900px;margin:0 auto;padding:40px 5vw;}
+.checkout-wrap h2{font-family:'Syne',sans-serif;font-weight:700;font-size:28px;color:var(--primary);margin-bottom:32px;}
+.checkout-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;}
+.checkout-section{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:28px;margin-bottom:20px;}
+.checkout-section-title{font-family:'Syne',sans-serif;font-weight:600;font-size:16px;color:var(--primary);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.order-summary-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);}
+.order-item-img{width:50px;height:50px;border-radius:10px;background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.order-item-info{flex:1;}
+.order-item-name{font-size:14px;font-weight:600;color:var(--primary);}
+.order-item-plan{font-size:12px;color:var(--text-muted);}
+.order-item-price{font-family:'Syne',sans-serif;font-weight:700;font-size:15px;color:var(--primary);}
+.order-totals{margin-top:16px;}
+.order-row{display:flex;justify-content:space-between;font-size:14px;color:var(--text-muted);padding:8px 0;}
+.order-row.grand-total{color:var(--primary);font-weight:700;font-size:16px;border-top:1.5px solid var(--primary);margin-top:8px;padding-top:16px;}
+.place-order-btn{width:100%;background:var(--primary);color:#fff;border:none;padding:16px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:20px;}
+.place-order-btn:hover{background:var(--accent2);}
+
+/* ── FOOTER ── */
+footer{background:var(--primary);color:rgba(255,255,255,.7);padding:60px 5vw 32px;}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px;}
+.footer-brand h3{font-family:'Syne',sans-serif;font-weight:800;font-size:22px;color:#fff;margin-bottom:14px;}
+.footer-brand p{font-size:14px;line-height:1.65;max-width:260px;}
+.footer-col h4{font-size:14px;font-weight:600;color:#fff;margin-bottom:16px;letter-spacing:.04em;}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.footer-col ul li a{font-size:13px;color:rgba(255,255,255,.6);text-decoration:none;transition:color .2s;cursor:pointer;}
+.footer-col ul li a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;}
+.footer-bottom p{font-size:13px;}
+
+/* ── ANIMATIONS ── */
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.4;}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeUp .5s ease forwards;}
+
+/* ── SUCCESS ── */
+.success-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:40px;}
+.success-card{background:var(--surface2);border-radius:24px;padding:60px;max-width:480px;width:100%;text-align:center;border:1px solid var(--border);}
+.success-icon{width:80px;height:80px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 24px;}
+.success-card h2{font-family:'Syne',sans-serif;font-weight:700;font-size:28px;color:var(--primary);margin-bottom:12px;}
+.success-card p{font-size:15px;color:var(--text-muted);line-height:1.65;margin-bottom:32px;}
+.order-id-tag{background:var(--surface);border-radius:var(--radius-sm);padding:14px 20px;font-family:'Syne',sans-serif;font-weight:700;font-size:18px;color:var(--primary);margin-bottom:24px;letter-spacing:.04em;}
+.success-actions{display:flex;flex-direction:column;gap:12px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;min-height:auto;padding:40px 5vw 60px;}
+  .hero-visual{display:none;}
+  .auth-wrap{grid-template-columns:1fr;}
+  .auth-left{display:none;}
+  .dashboard-grid{grid-template-columns:1fr;}
+  .checkout-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:600px){
+  .nav-links button:not(.nav-cta){display:none;}
+  .hero-stats{gap:20px;}
+  .footer-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo" onclick="goTo('home')"><span class="logo-dot"></span>RentEase</div>
+    <div class="nav-links">
+      <button onclick="goTo('home')" id="nav-home" class="active">Home</button>
+      <button onclick="goTo('products')" id="nav-products">Browse</button>
+      <button onclick="goTo('dashboard')" id="nav-dashboard">Dashboard</button>
+      <button onclick="goTo('login')" id="nav-login">Sign In</button>
+      <div class="cart-trigger" onclick="toggleCart()">
+        <button class="nav-cta">🛒 Cart <span class="cart-count-badge" id="cart-badge" style="display:none">0</span></button>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+<div class="cart-sidebar" id="cart-sidebar">
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <button class="cart-close" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cart-items-list"></div>
+  <div class="cart-footer" id="cart-footer" style="display:none">
+    <div class="cart-summary">
+      <div class="summary-row"><span>Monthly Rental</span><span id="sum-rental">₹0</span></div>
+      <div class="summary-row"><span>Security Deposit</span><span id="sum-deposit">₹0</span></div>
+      <div class="summary-row"><span>Delivery</span><span>Free</span></div>
+      <div class="summary-row total"><span>Total First Month</span><span id="sum-total">₹0</span></div>
+    </div>
+    <button class="checkout-btn" onclick="goToCheckout()">Proceed to Checkout →</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="toast-icon">✅</span><span id="toast-msg">Added to cart!</span></div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <div class="modal-cat" id="m-cat"></div>
+        <div class="modal-name" id="m-name"></div>
+      </div>
+      <button style="background:var(--surface);border:none;width:36px;height:36px;border-radius:10px;cursor:pointer;font-size:18px" onclick="document.getElementById('modal-overlay').classList.remove('open')">✕</button>
+    </div>
+    <div class="modal-img" id="m-img"></div>
+    <div class="modal-body">
+      <div class="modal-desc" id="m-desc"></div>
+      <div class="modal-specs">
+        <div class="spec-item"><div class="spec-label">Monthly Rent</div><div class="spec-val" id="m-rent"></div></div>
+        <div class="spec-item"><div class="spec-label">Security Deposit</div><div class="spec-val" id="m-deposit"></div></div>
+      </div>
+      <div class="tenure-select">
+        <div class="tenure-label">Select Tenure</div>
+        <div class="tenure-options" id="m-tenure"></div>
+      </div>
+      <button class="modal-add-btn" onclick="addToCartFromModal()">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ HOME PAGE ═══════════════ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-content fade-in">
+      <div class="hero-badge"><span></span>India's #1 Rental Platform</div>
+      <h1>Rent <em>Smarter</em>,<br>Live Better</h1>
+      <p>Premium furniture & appliances on monthly rental. No ownership stress, no relocation hassles. Just comfort, delivered.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="goTo('products')">Browse Collection →</button>
+        <button class="btn-outline" onclick="goTo('login')">Get Started Free</button>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><div class="stat-num">50K+</div><div class="stat-label">Happy Renters</div></div>
+        <div class="stat-item"><div class="stat-num">200+</div><div class="stat-label">Products</div></div>
+        <div class="stat-item"><div class="stat-num">15+</div><div class="stat-label">Cities</div></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="card-float card-float-1">
+          <div class="float-label">Top Pick</div>
+          <div class="float-val">₹899/mo</div>
+          <div class="float-sub">Queen Bed Frame</div>
+          <div class="availability-dots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot off"></div><div class="dot off"></div>
+          </div>
+        </div>
+        <div class="card-main">
+          <div class="card-main-img">🛋️</div>
+          <div style="font-family:'Syne',sans-serif;font-weight:600;font-size:18px;color:#fff;margin-bottom:4px">Premium Sofa Set</div>
+          <div style="color:rgba(255,255,255,.6);font-size:13px;margin-bottom:14px">3-Seater · Available Now</div>
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:11px;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.06em">Monthly</div>
+              <div style="font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:var(--accent)">₹1,199</div>
+            </div>
+            <button style="background:var(--accent);border:none;padding:10px 20px;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:600;cursor:pointer;color:var(--primary)" onclick="goTo('products')">Rent Now</button>
+          </div>
+        </div>
+        <div class="card-float card-float-2">
+          <div class="float-label">Free Delivery</div>
+          <div class="float-val" style="font-size:14px;color:var(--success)">✓ Same Week</div>
+          <div class="float-sub">Setup Included</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="section" style="background:var(--surface2)">
+    <div class="section-label">✦ Simple Process</div>
+    <div class="section-title">How RentEase Works</div>
+    <div class="section-sub">Get your dream living space set up in 4 easy steps — zero headaches.</div>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon">🔍</div>
+        <div class="step-title">Browse & Select</div>
+        <div class="step-desc">Explore our curated catalog of premium furniture and appliances. Filter by category, price, and tenure.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon">📅</div>
+        <div class="step-title">Choose Your Plan</div>
+        <div class="step-desc">Pick a rental tenure from 3 to 24 months. Longer plans get better monthly rates.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon">🚚</div>
+        <div class="step-title">Schedule Delivery</div>
+        <div class="step-desc">Choose a delivery slot. Our team delivers, assembles, and sets up everything at your home.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-icon">🔄</div>
+        <div class="step-title">Extend or Return</div>
+        <div class="step-desc">Moving? Simply schedule a pickup. Want to keep it longer? Extend with one click.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="section">
+    <div class="section-label">✦ Loved by Renters</div>
+    <div class="section-title">What Our Customers Say</div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-text">"Moved to Bangalore for my new job and had a fully furnished apartment within 3 days. RentEase made the transition absolutely stress-free."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">AK</div>
+          <div class="author-info"><div class="author-name">Arjun Kumar</div><div class="author-role">Software Engineer, Bangalore</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-text">"As a student, I couldn't afford to buy a fridge and washing machine. RentEase gave me both for under ₹1500/month. Absolutely worth it!"</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">PS</div>
+          <div class="author-info"><div class="author-name">Priya Sharma</div><div class="author-role">MBA Student, Pune</div></div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <div class="testimonial-text">"Maintenance service is top-notch. Had an issue with my AC and they fixed it within 24 hours. This is the future of urban living."</div>
+        <div class="testimonial-author">
+          <div class="author-avatar">RV</div>
+          <div class="author-info"><div class="author-name">Rohit Verma</div><div class="author-role">Marketing Manager, Mumbai</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA SECTION -->
+  <div style="background:var(--primary);padding:72px 5vw;text-align:center">
+    <div style="font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:16px">✦ Limited Time Offer</div>
+    <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:clamp(28px,4vw,48px);color:#fff;margin-bottom:16px;line-height:1.15">First Month <span style="color:var(--accent)">50% OFF</span><br>for New Renters</h2>
+    <p style="font-size:16px;color:rgba(255,255,255,.65);max-width:480px;margin:0 auto 36px;line-height:1.65">Use code <strong style="color:var(--accent)">RENTSTART</strong> at checkout. Valid on all products for your first rental order.</p>
+    <button class="btn-primary" style="background:var(--accent);color:var(--primary);font-weight:700;font-size:16px;padding:16px 36px;margin:0 auto" onclick="goTo('products')">Start Renting Today →</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>🟡 RentEase</h3>
+        <p>Making urban living affordable and flexible. Quality furniture & appliances delivered to your doorstep.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a onclick="goTo('products')">Furniture</a></li>
+          <li><a onclick="goTo('products')">Appliances</a></li>
+          <li><a onclick="goTo('products')">Combo Plans</a></li>
+          <li><a onclick="goTo('products')">Office Setup</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a>About Us</a></li>
+          <li><a>Careers</a></li>
+          <li><a>Blog</a></li>
+          <li><a>Press</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Support</h4>
+        <ul>
+          <li><a>Help Center</a></li>
+          <li><a>Contact Us</a></li>
+          <li><a>Terms of Service</a></li>
+          <li><a>Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 RentEase Technologies Pvt. Ltd. All rights reserved.</p>
+      <p>Made with ♥ in India</p>
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════ PRODUCTS PAGE ═══════════════ -->
+<div id="page-products" class="page">
+  <div class="section">
+    <div class="section-label">✦ Catalog</div>
+    <div class="section-title">Browse & Rent</div>
+    <div class="section-sub">200+ premium products available across 15 cities. Free delivery & setup included.</div>
+    <div class="filter-bar" id="filter-bar"></div>
+    <div class="product-grid" id="product-grid"></div>
+  </div>
+  <footer style="background:var(--primary);padding:32px 5vw;text-align:center">
+    <p style="color:rgba(255,255,255,.5);font-size:13px">© 2025 RentEase Technologies Pvt. Ltd.</p>
+  </footer>
+</div>
+
+<!-- ═══════════════ DASHBOARD PAGE ═══════════════ -->
+<div id="page-dashboard" class="page">
+  <div class="dashboard">
+    <div class="dashboard-header">
+      <div class="welcome-text">
+        <h2>Welcome back, Rahul 👋</h2>
+        <p>Here's an overview of your active rentals and account activity.</p>
+      </div>
+      <button class="btn-primary" onclick="goTo('products')">+ Add New Rental</button>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-icon yellow">📦</div>
+        <div class="kpi-label">Active Rentals</div>
+        <div class="kpi-value">4</div>
+        <div class="kpi-change up">↑ +1 this month</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon green">💰</div>
+        <div class="kpi-label">Monthly Spend</div>
+        <div class="kpi-value">₹3,850</div>
+        <div class="kpi-change down">↓ ₹250 vs last month</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon blue">🏆</div>
+        <div class="kpi-label">Loyalty Points</div>
+        <div class="kpi-value">1,240</div>
+        <div class="kpi-change up">↑ +180 this month</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-icon red">🔧</div>
+        <div class="kpi-label">Open Requests</div>
+        <div class="kpi-value">1</div>
+        <div class="kpi-change" style="color:var(--text-muted)">Maintenance pending</div>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div>
+        <div class="dash-card">
+          <div class="dash-card-title">Active Rentals <span style="font-size:12px;font-weight:500;color:var(--text-muted)">4 items</span></div>
+          <div class="rental-list">
+            <div class="rental-item">
+              <div class="rental-item-icon">🛋️</div>
+              <div class="rental-item-info">
+                <div class="rental-item-name">Premium 3-Seater Sofa</div>
+                <div class="rental-item-meta">Since Apr 2025 · 12-month plan · Ends Apr 2026</div>
+                <div class="progress-wrap">
+                  <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:4px;margin-top:6px"><span>8 of 12 months used</span><span>67%</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:67%"></div></div>
+                </div>
+              </div>
+              <div><span class="rental-status status-active">Active</span></div>
+            </div>
+            <div class="rental-item">
+              <div class="rental-item-icon">❄️</div>
+              <div class="rental-item-info">
+                <div class="rental-item-name">Double Door Refrigerator</div>
+                <div class="rental-item-meta">Since Jan 2025 · 6-month plan · Ends Jul 2025</div>
+                <div class="progress-wrap">
+                  <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:4px;margin-top:6px"><span>5 of 6 months used</span><span>83%</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:83%;background:var(--accent2)"></div></div>
+                </div>
+              </div>
+              <div><span class="rental-status status-ending">Ending Soon</span></div>
+            </div>
+            <div class="rental-item">
+              <div class="rental-item-icon">📺</div>
+              <div class="rental-item-info">
+                <div class="rental-item-name">55" 4K Smart TV</div>
+                <div class="rental-item-meta">Since Mar 2025 · 12-month plan · Ends Mar 2026</div>
+                <div class="progress-wrap">
+                  <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:4px;margin-top:6px"><span>3 of 12 months used</span><span>25%</span></div>
+                  <div class="progress-bar"><div class="progress-fill" style="width:25%"></div></div>
+                </div>
+              </div>
+              <div><span class="rental-status status-active">Active</span></div>
+            </div>
+            <div class="rental-item">
+              <div class="rental-item-icon">🫧</div>
+              <div class="rental-item-info">
+                <div class="rental-item-name">Front Load Washing Machine</div>
+                <div class="rental-item-meta">Delivery scheduled · May 28, 2025</div>
+              </div>
+              <div><span class="rental-status status-pending">Pending</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card" style="margin-top:24px">
+          <div class="dash-card-title">Monthly Spend</div>
+          <div style="display:flex;gap:6px;align-items:flex-end;height:100px;">
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div style="flex:1;width:100%;background:var(--primary);border-radius:4px 4px 0 0;opacity:.3;height:40%"></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px">Nov</div></div>
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div style="flex:1;width:100%;background:var(--primary);border-radius:4px 4px 0 0;opacity:.4;height:55%"></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px">Dec</div></div>
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div style="flex:1;width:100%;background:var(--primary);border-radius:4px 4px 0 0;opacity:.5;height:60%"></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px">Jan</div></div>
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div style="flex:1;width:100%;background:var(--primary);border-radius:4px 4px 0 0;opacity:.55;height:70%"></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px">Feb</div></div>
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div style="flex:1;width:100%;background:var(--primary);border-radius:4px 4px 0 0;opacity:.6;height:80%"></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px">Mar</div></div>
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div style="flex:1;width:100%;background:var(--primary);border-radius:4px 4px 0 0;opacity:.7;height:75%"></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px">Apr</div></div>
+            <div style="display:flex;flex-direction:column;align-items:center;flex:1"><div style="flex:1;width:100%;background:var(--accent2);border-radius:4px 4px 0 0;height:86%"></div><div style="font-size:10px;color:var(--text-muted);margin-top:4px">May</div></div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;font-size:12px;color:var(--text-muted);margin-top:12px">₹3,850 this month</div>
+        </div>
+      </div>
+
+      <div>
+        <div class="dash-card">
+          <div class="dash-card-title">Recent Activity</div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-dot green"></div>
+              <div><div class="activity-text">Washing Machine order confirmed</div><div class="activity-time">Today, 10:24 AM</div></div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot amber"></div>
+              <div><div class="activity-text">Maintenance request raised for Sofa</div><div class="activity-time">Yesterday, 3:15 PM</div></div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot green"></div>
+              <div><div class="activity-text">May rent payment processed</div><div class="activity-time">May 1, 9:00 AM</div></div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot green"></div>
+              <div><div class="activity-text">55" TV delivered & installed</div><div class="activity-time">Mar 15, 2:30 PM</div></div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot amber"></div>
+              <div><div class="activity-text">Refrigerator plan expiry reminder</div><div class="activity-time">Mar 10, 11:00 AM</div></div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-dot green"></div>
+              <div><div class="activity-text">Loyalty points redeemed: ₹200 off</div><div class="activity-time">Feb 28, 4:45 PM</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dash-card" style="margin-top:24px">
+          <div class="dash-card-title">Quick Actions</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <button class="btn-outline" style="width:100%;justify-content:center;font-size:14px" onclick="goTo('products')">➕ Add New Rental</button>
+            <button class="btn-outline" style="width:100%;justify-content:center;font-size:14px">🔧 Request Maintenance</button>
+            <button class="btn-outline" style="width:100%;justify-content:center;font-size:14px">📅 Schedule Pickup</button>
+            <button class="btn-outline" style="width:100%;justify-content:center;font-size:14px">💬 Contact Support</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ LOGIN PAGE ═══════════════ -->
+<div id="page-login" class="page">
+  <div class="auth-wrap">
+    <div class="auth-left">
+      <div class="logo" style="color:var(--accent)" onclick="goTo('home')"><span class="logo-dot"></span>RentEase</div>
+      <div class="auth-left-content">
+        <h2>Rent furniture &<br>appliances <span>without limits</span></h2>
+        <p>Join 50,000+ renters across India who've said goodbye to the stress of buying furniture.</p>
+        <div class="auth-features">
+          <div class="auth-feature"><div class="auth-feature-icon">🚚</div><div class="auth-feature-text">Free delivery & professional setup at your home</div></div>
+          <div class="auth-feature"><div class="auth-feature-icon">🔧</div><div class="auth-feature-text">Free maintenance & repairs throughout your rental</div></div>
+          <div class="auth-feature"><div class="auth-feature-icon">🔄</div><div class="auth-feature-text">Hassle-free pickup when you move or return</div></div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:rgba(255,255,255,.4)">© 2025 RentEase Technologies Pvt. Ltd.</p>
+    </div>
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+        <h3>Welcome back</h3>
+        <p class="auth-sub">Sign in to manage your rentals</p>
+        <button class="social-btn">
+          <svg width="18" height="18" viewBox="0 0 18 18"><path d="M17.64 9.2a9.8 9.8 0 00-.16-1.84H9v3.48h4.84a4.14 4.14 0 01-1.8 2.72v2.26h2.92c1.7-1.57 2.68-3.88 2.68-6.62z" fill="#4285F4"/><path d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.92-2.26a5.4 5.4 0 01-8.07-2.84H0v2.33A9 9 0 009 18z" fill="#34A853"/><path d="M3.97 10.72A5.41 5.41 0 013.97 7.28V4.95H1.04a9 9 0 000 8.1l2.93-2.33z" fill="#FBBC05"/><path d="M9 3.58c1.32 0 2.5.45 3.44 1.35l2.58-2.58A9 9 0 001.04 4.95L3.97 7.28C4.61 5.24 6.65 3.58 9 3.58z" fill="#EA4335"/></svg>
+          Continue with Google
+        </button>
+        <div class="divider"><div class="divider-line"></div><div class="divider-text">or email</div><div class="divider-line"></div></div>
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input type="email" class="form-input" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" placeholder="••••••••">
+        </div>
+        <button class="form-submit" onclick="goTo('dashboard')">Sign In →</button>
+        <div class="auth-switch">Don't have an account? <a onclick="goTo('signup')">Create one free</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SIGNUP PAGE ═══════════════ -->
+<div id="page-signup" class="page">
+  <div class="auth-wrap">
+    <div class="auth-left">
+      <div class="logo" style="color:var(--accent)" onclick="goTo('home')"><span class="logo-dot"></span>RentEase</div>
+      <div class="auth-left-content">
+        <h2>Start renting in<br><span>under 5 minutes</span></h2>
+        <p>Create your free account and get your first order delivered within 3–5 business days.</p>
+        <div class="auth-features">
+          <div class="auth-feature"><div class="auth-feature-icon">🎁</div><div class="auth-feature-text">First month 50% off for new customers</div></div>
+          <div class="auth-feature"><div class="auth-feature-icon">🔒</div><div class="auth-feature-text">Secure payments, no hidden charges</div></div>
+          <div class="auth-feature"><div class="auth-feature-icon">⭐</div><div class="auth-feature-text">4.8/5 rating from 50,000+ customers</div></div>
+        </div>
+      </div>
+      <p style="font-size:12px;color:rgba(255,255,255,.4)">© 2025 RentEase Technologies Pvt. Ltd.</p>
+    </div>
+    <div class="auth-right">
+      <div class="auth-form-wrap">
+        <h3>Create account</h3>
+        <p class="auth-sub">Free forever · No credit card required</p>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">First Name</label><input type="text" class="form-input" placeholder="Rahul"></div>
+          <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" placeholder="Sharma"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Email address</label><input type="email" class="form-input" placeholder="rahul@example.com"></div>
+        <div class="form-group"><label class="form-label">Phone number</label><input type="tel" class="form-input" placeholder="+91 98765 43210"></div>
+        <div class="form-group"><label class="form-label">City</label>
+          <select class="form-input" style="cursor:pointer">
+            <option>Select your city</option>
+            <option>Bangalore</option><option>Mumbai</option><option>Delhi</option><option>Pune</option><option>Hyderabad</option><option>Chennai</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-input" placeholder="Min. 8 characters"></div>
+        <button class="form-submit" onclick="goTo('dashboard')">Create Account →</button>
+        <div class="auth-switch">Already have an account? <a onclick="goTo('login')">Sign in</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ CHECKOUT PAGE ═══════════════ -->
+<div id="page-checkout" class="page">
+  <div class="checkout-wrap">
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:32px">
+      <button style="background:none;border:1px solid var(--border);padding:8px 16px;border-radius:var(--radius-sm);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:13px" onclick="closeCartAndGoProducts()">← Back</button>
+      <h2 style="margin:0">Checkout</h2>
+    </div>
+    <div class="checkout-grid">
+      <div>
+        <div class="checkout-section">
+          <div class="checkout-section-title">Delivery Information</div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">First Name</label><input type="text" class="form-input" placeholder="Rahul" value="Rahul"></div>
+            <div class="form-group"><label class="form-label">Last Name</label><input type="text" class="form-input" placeholder="Sharma" value="Sharma"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Phone Number</label><input type="tel" class="form-input" placeholder="+91 98765 43210"></div>
+          <div class="form-group"><label class="form-label">Full Address</label><input type="text" class="form-input" placeholder="Flat no, Building, Street"></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">City</label>
+              <select class="form-input">
+                <option>Bangalore</option><option>Mumbai</option><option>Delhi</option><option>Pune</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">PIN Code</label><input type="text" class="form-input" placeholder="560001"></div>
+          </div>
+        </div>
+        <div class="checkout-section">
+          <div class="checkout-section-title">Delivery Date</div>
+          <input type="date" class="form-input" style="width:100%">
+          <p style="font-size:12px;color:var(--text-muted);margin-top:8px">Earliest available: within 3–5 business days</p>
+        </div>
+        <div class="checkout-section">
+          <div class="checkout-section-title">ID Verification</div>
+          <div class="form-group"><label class="form-label">Aadhaar / PAN Number</label><input type="text" class="form-input" placeholder="For KYC verification"></div>
+          <p style="font-size:12px;color:var(--text-muted)">Your ID is securely verified and not stored permanently.</p>
+        </div>
+      </div>
+      <div>
+        <div class="checkout-section" style="position:sticky;top:90px">
+          <div class="checkout-section-title">Order Summary</div>
+          <div id="checkout-items"></div>
+          <div class="order-totals" id="checkout-totals"></div>
+          <button class="place-order-btn" onclick="placeOrder()">Place Order →</button>
+          <p style="font-size:12px;color:var(--text-muted);text-align:center;margin-top:12px">🔒 100% secure · Free delivery & setup</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ ORDER SUCCESS PAGE ═══════════════ -->
+<div id="page-success" class="page">
+  <div class="success-wrap">
+    <div class="success-card">
+      <div class="success-icon">✅</div>
+      <h2>Order Confirmed!</h2>
+      <p>Your rental order has been placed successfully. Our team will contact you within 24 hours to confirm delivery details.</p>
+      <div class="order-id-tag" id="order-id-display">Order #RE-2025-00142</div>
+      <div class="success-actions">
+        <button class="btn-primary" style="justify-content:center" onclick="goTo('dashboard')">Go to Dashboard →</button>
+        <button class="btn-outline" onclick="goTo('products')">Continue Browsing</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const products = [
+  {id:1,name:"Queen Bed Frame",cat:"Furniture",emoji:"🛏️",desc:"Solid wood queen bed frame with headboard. Elegant design that fits any bedroom aesthetic.",rent:899,deposit:1500,tenure:[3,6,12,24],badge:"Popular"},
+  {id:2,name:"3-Seater Sofa",cat:"Furniture",emoji:"🛋️",desc:"Premium fabric sofa with high-density foam cushions. Perfect for living rooms.",rent:1199,deposit:2000,tenure:[3,6,12,24],badge:null},
+  {id:3,name:"Study Table + Chair",cat:"Furniture",emoji:"🪑",desc:"Ergonomic study setup with adjustable chair. Ideal for students and work-from-home.",rent:599,deposit:1000,tenure:[3,6,12],badge:"New"},
+  {id:4,name:"4-Seater Dining Set",cat:"Furniture",emoji:"🍽️",desc:"Solid teak wood dining table with 4 matching chairs. Seats 4 comfortably.",rent:799,deposit:1500,tenure:[6,12,24],badge:null},
+  {id:5,name:"Double Door Fridge",cat:"Appliances",emoji:"❄️",desc:"260L double-door refrigerator with inverter compressor. Energy efficient with 5-star rating.",rent:999,deposit:2000,tenure:[3,6,12],badge:"Popular"},
+  {id:6,name:"Front Load Washing Machine",cat:"Appliances",emoji:"🫧",desc:"7kg front-load washing machine with 15 wash programs. Smart delay start function.",rent:799,deposit:1500,tenure:[3,6,12],badge:null},
+  {id:7,name:"55\" 4K Smart TV",cat:"Appliances",emoji:"📺",desc:"55-inch 4K UHD smart TV with built-in streaming apps. Dolby Audio and HDR support.",rent:1299,deposit:2500,tenure:[3,6,12,24],badge:"New"},
+  {id:8,name:"Split AC 1.5 Ton",cat:"Appliances",emoji:"❄️",desc:"1.5 ton 5-star split AC with auto-clean function. Includes installation and maintenance.",rent:1499,deposit:3000,tenure:[3,6,12],badge:null},
+  {id:9,name:"Wardrobe 3-Door",cat:"Furniture",emoji:"🚪",desc:"3-door engineered wood wardrobe with mirror and multiple storage compartments.",rent:699,deposit:1200,tenure:[6,12,24],badge:null},
+  {id:10,name:"Microwave Oven",cat:"Appliances",emoji:"⚡",desc:"25L convection microwave with 200+ auto-cook menus. Easy clean interior.",rent:399,deposit:800,tenure:[3,6,12],badge:null},
+  {id:11,name:"Coffee Table",cat:"Furniture",emoji:"☕",desc:"Scandinavian-style coffee table with lower shelf storage. Fits perfectly with any sofa set.",rent:349,deposit:600,tenure:[3,6,12],badge:null},
+  {id:12,name:"Induction Cooktop",cat:"Appliances",emoji:"🍳",desc:"2000W induction cooktop with 8 preset menus and child lock safety feature.",rent:299,deposit:500,tenure:[3,6,12],badge:"New"},
+];
+
+const categories = ["All","Furniture","Appliances"];
+let activeFilter = "All";
+let cart = [];
+let modalProduct = null;
+let modalTenure = 3;
+
+function goTo(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-links button[id^="nav-"]').forEach(b=>b.classList.remove('active'));
+  const nb = document.getElementById('nav-'+page);
+  if(nb) nb.classList.add('active');
+  window.scrollTo(0,0);
+  if(page==='products') renderProducts();
+}
+
+function renderProducts(){
+  const grid = document.getElementById('product-grid');
+  const fb = document.getElementById('filter-bar');
+  if(!fb.innerHTML){
+    categories.forEach(c=>{
+      const btn = document.createElement('button');
+      btn.className='filter-btn'+(c===activeFilter?' active':'');
+      btn.textContent=c;
+      btn.onclick=()=>{activeFilter=c;document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderProducts();};
+      fb.appendChild(btn);
+    });
+  }
+  const filtered = activeFilter==='All'?products:products.filter(p=>p.cat===activeFilter);
+  grid.innerHTML = filtered.map(p=>{
+    const inCart = cart.find(i=>i.id===p.id);
+    return `<div class="product-card fade-in" onclick="openModal(${p.id})">
+      <div class="product-img">${p.emoji}
+        ${p.badge?`<div class="product-badge${p.badge==='New'?' new':''}">${p.badge}</div>`:''}
+        <button class="wishlist-btn" onclick="event.stopPropagation();toggleWishlist(this)">
+          <svg viewBox="0 0 24 24" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-cat">${p.cat}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.desc.substring(0,70)}…</div>
+        <div class="product-footer">
+          <div class="price-wrap"><div class="price">₹${p.rent}<span style="font-size:12px;font-weight:400;color:var(--text-muted)">/mo</span></div><div class="price-note">Deposit: ₹${p.deposit}</div></div>
+          <button class="add-btn" onclick="event.stopPropagation();quickAdd(${p.id})">+</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleWishlist(btn){
+  btn.classList.toggle('active');
+  showToast(btn.classList.contains('active')?'❤️ Added to wishlist':'💔 Removed from wishlist');
+}
+
+function openModal(id){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  modalProduct = p;
+  modalTenure = p.tenure[0];
+  document.getElementById('m-cat').textContent = p.cat;
+  document.getElementById('m-name').textContent = p.name;
+  document.getElementById('m-img').textContent = p.emoji;
+  document.getElementById('m-desc').textContent = p.desc;
+  document.getElementById('m-rent').textContent = '₹'+p.rent+'/mo';
+  document.getElementById('m-deposit').textContent = '₹'+p.deposit;
+  const to = document.getElementById('m-tenure');
+  to.innerHTML = p.tenure.map(t=>`<button class="tenure-btn${t===modalTenure?' active':''}" onclick="selectTenure(${t},this)">${t} Months</button>`).join('');
+  document.getElementById('modal-overlay').classList.add('open');
+}
+
+function selectTenure(t, btn){
+  modalTenure = t;
+  document.querySelectorAll('.tenure-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function closeModal(e){
+  if(e.target.id==='modal-overlay') document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function addToCartFromModal(){
+  if(!modalProduct) return;
+  addToCart(modalProduct.id, modalTenure);
+  document.getElementById('modal-overlay').classList.remove('open');
+}
+
+function quickAdd(id){
+  const p = products.find(x=>x.id===id);
+  addToCart(id, p.tenure[1]||p.tenure[0]);
+}
+
+function addToCart(id, tenure){
+  const p = products.find(x=>x.id===id);
+  if(!p) return;
+  const existing = cart.find(i=>i.id===id);
+  if(existing){ existing.qty++; }
+  else{ cart.push({...p, qty:1, selectedTenure:tenure}); }
+  updateCartUI();
+  showToast(`✅ ${p.name} added to cart!`);
+}
+
+function updateCartUI(){
+  const count = cart.reduce((s,i)=>s+i.qty,0);
+  const badge = document.getElementById('cart-badge');
+  badge.style.display = count>0?'flex':'none';
+  badge.textContent = count;
+
+  const list = document.getElementById('cart-items-list');
+  const footer = document.getElementById('cart-footer');
+
+  if(cart.length===0){
+    list.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p style="font-size:14px;color:var(--text-muted)">Your cart is empty</p><button class="btn-primary" style="font-size:13px;padding:10px 20px" onclick="toggleCart();goTo('products')">Browse Products</button></div>`;
+    footer.style.display='none';
+    return;
+  }
+
+  list.innerHTML = cart.map(item=>`
+    <div class="cart-item">
+      <div class="cart-item-img">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-plan">${item.selectedTenure}-month plan</div>
+        <div class="cart-item-actions">
+          <div class="qty-control">
+            <button class="qty-btn" onclick="changeQty(${item.id},-1)">−</button>
+            <span class="qty-num">${item.qty}</span>
+            <button class="qty-btn" onclick="changeQty(${item.id},1)">+</button>
+          </div>
+          <span class="cart-item-price">₹${item.rent*item.qty}/mo</span>
+          <button class="cart-remove" onclick="removeFromCart(${item.id})">🗑</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  const totalRental = cart.reduce((s,i)=>s+i.rent*i.qty,0);
+  const totalDeposit = cart.reduce((s,i)=>s+i.deposit*i.qty,0);
+  document.getElementById('sum-rental').textContent = '₹'+totalRental;
+  document.getElementById('sum-deposit').textContent = '₹'+totalDeposit;
+  document.getElementById('sum-total').textContent = '₹'+(totalRental+totalDeposit);
+  footer.style.display='block';
+}
+
+function changeQty(id, delta){
+  const item = cart.find(i=>i.id===id);
+  if(!item) return;
+  item.qty += delta;
+  if(item.qty<=0) cart = cart.filter(i=>i.id!==id);
+  updateCartUI();
+}
+
+function removeFromCart(id){
+  cart = cart.filter(i=>i.id!==id);
+  updateCartUI();
+  showToast('🗑 Item removed from cart');
+}
+
+function toggleCart(){
+  const sidebar = document.getElementById('cart-sidebar');
+  const overlay = document.getElementById('cart-overlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+  updateCartUI();
+}
+
+function goToCheckout(){
+  toggleCart();
+  renderCheckoutItems();
+  goTo('checkout');
+}
+
+function closeCartAndGoProducts(){
+  goTo('products');
+}
+
+function renderCheckoutItems(){
+  const container = document.getElementById('checkout-items');
+  const totals = document.getElementById('checkout-totals');
+  if(cart.length===0){container.innerHTML='<p style="color:var(--text-muted);font-size:14px">Cart is empty</p>';return;}
+  container.innerHTML = cart.map(item=>`
+    <div class="order-summary-item">
+      <div class="order-item-img">${item.emoji}</div>
+      <div class="order-item-info">
+        <div class="order-item-name">${item.name}</div>
+        <div class="order-item-plan">${item.selectedTenure}-month plan × ${item.qty}</div>
+      </div>
+      <div class="order-item-price">₹${item.rent*item.qty}/mo</div>
+    </div>`).join('');
+
+  const totalRental = cart.reduce((s,i)=>s+i.rent*i.qty,0);
+  const totalDeposit = cart.reduce((s,i)=>s+i.deposit*i.qty,0);
+  totals.innerHTML = `
+    <div class="order-row"><span>Monthly Rental</span><span>₹${totalRental}</span></div>
+    <div class="order-row"><span>Security Deposit</span><span>₹${totalDeposit}</span></div>
+    <div class="order-row"><span>Delivery & Setup</span><span style="color:var(--success)">Free</span></div>
+    <div class="order-row grand-total"><span>Total First Payment</span><span>₹${totalRental+totalDeposit}</span></div>`;
+}
+
+function placeOrder(){
+  const orderId = 'RE-2025-' + String(Math.floor(10000+Math.random()*90000));
+  document.getElementById('order-id-display').textContent = 'Order #' + orderId;
+  cart = [];
+  updateCartUI();
+  goTo('success');
+}
+
+function showToast(msg){
+  const toast = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  toast.classList.add('show');
+  setTimeout(()=>toast.classList.remove('show'),2800);
+}
+
+// init
+renderProducts();
+</script>
+</body>
+</html>
